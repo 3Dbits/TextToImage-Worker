@@ -1,5 +1,6 @@
 interface TextPromptRequest {
 	prompt: string;
+	model?: BaseAiTextToImageModels;
 	num_steps?: number;
 }
 
@@ -35,8 +36,8 @@ export default {
 				return Response.json({ success: false, error: 'Unauthorized' }, { status: 401 });
 			}
 
-			const model = '@cf/black-forest-labs/flux-1-schnell' as BaseAiTextToImageModels;
 			const requestData = (await request.json()) as TextPromptRequest;
+			const model = requestData.model || ('@cf/black-forest-labs/flux-1-schnell' as BaseAiTextToImageModels);
 
 			const translationRequest: BaseAiTextToImage['inputs'] = {
 				prompt: requestData.prompt,
